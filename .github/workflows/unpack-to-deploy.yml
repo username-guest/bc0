@@ -1,20 +1,11 @@
-# Unpacks each uploaded BrandCanvas tarball into the `deploy` branch, which Vercel builds.
-# Add this file to the bc0 repo once, at .github/workflows/unpack-to-deploy.yml.
 name: Unpack tarball to deploy branch
-
 on:
   push:
     branches: [main]
     paths: ['*.tar.gz']
   workflow_dispatch:
-
 permissions:
   contents: write
-
-concurrency:
-  group: unpack-to-deploy
-  cancel-in-progress: false
-
 jobs:
   unpack:
     runs-on: ubuntu-latest
@@ -22,13 +13,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Pick the tarball
-        id: pick
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ "${{ github.event_name }}" = "push" ] && git rev-parse -q --verify HEAD~1 >/dev/null; then
-            file=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- '*.tar.gz' | tail -n 1)
-          else
-            file=$(git log --format= --name-only --diff-filter=AM -
+      - run: |
+          f=$(git log --format= --name-only --diff-filter=AM -- '*.tar.gz' | grep -m1 'tar.gz$')
+          echo "Using $f"
+          mkdir /tmp/u && tar xzf "$f" -C /tmp/u --no-same-owner
+          cd /tmp/u/brandcanvas && test -f package.json
+          git init -q -b deploy && git add -A
+          git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm "$f"
+          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} deploy
