@@ -14,10 +14,10 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          f=$(git log --format= --name-only --diff-filter=AM -- '*.tar.gz' | grep -m1 'tar.gz$')
+          f=$(git log -1 --format= --name-only --diff-filter=AM -- '*.tar.gz' | awk '/tar\.gz$/ && !n {print; n=1}')
           echo "Using $f"
           mkdir /tmp/u && tar xzf "$f" -C /tmp/u --no-same-owner
-          cd /tmp/u/brandcanvas && test -f package.json
+          cd /tmp/u/brandcanvas && test -f package.json && rm -rf .github
           git init -q -b deploy && git add -A
           git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm "$f"
           git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} deploy
