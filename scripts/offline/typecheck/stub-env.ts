@@ -1,0 +1,48 @@
+/** Typed stand-in for src/core/config/env.ts (zod isn't installed in the sandbox). Mirrors its output type. */
+export interface Env {
+  NODE_ENV: 'development' | 'test' | 'production';
+  BASE_DOMAIN: string;
+  AUTH_SECRET?: string;
+  DATA_MODE: 'memory' | 'postgres';
+  DATABASE_URL?: string;
+  APP_DB_ROLE: string;
+  STORAGE_DRIVER: 'local' | 'memory' | 's3';
+  LOCAL_STORAGE_DIR: string;
+  TRUST_PROXY: boolean;
+  MAX_UPLOAD_MB: number;
+  UPLOAD_RATE_MAX: number;
+  PROOF_RATE_MAX: number;
+  LEAD_RATE_MAX: number;
+  RATE_LIMIT_STORE?: 'memory' | 'postgres';
+  SETTINGS_ENCRYPTION_KEYS?: string;
+  DELIVERY_WORKER: 'inline' | 'off';
+  EMAIL_PROVIDER: 'log' | 'resend';
+  RESEND_API_KEY?: string;
+  EMAIL_FROM: string;
+  PUBLIC_BASE_URL?: string;
+  ADMIN_SIGNIN_RATE_MAX: number;
+  DELIVERY_WORKER_INTERVAL_MS: number;
+  MAINTENANCE_INTERVAL_MS: number;
+  PROOF_WORKER: 'inline' | 'after' | 'off';
+  PROOF_WORKER_INTERVAL_MS: number;
+  SUPPLIER_WORKER: 'inline' | 'after' | 'off';
+  CRON_SECRET?: string;
+  VERCEL?: string;
+  SUPPLIER_WORKER_INTERVAL_MS: number;
+  PROMOSTANDARDS_FAKE_SUPPLIER: boolean;
+  RATE_LIMIT_WINDOW_MS: number;
+  RATE_LIMIT_MAX: number;
+  STORAGE_ENDPOINT?: string;
+  STORAGE_REGION: string;
+  STORAGE_FORCE_PATH_STYLE?: boolean | undefined;
+  STORAGE_BUCKET: string;
+  STORAGE_ACCESS_KEY?: string;
+  STORAGE_SECRET_KEY?: string;
+  IMAGE_PROVIDER: 'mock' | 'fal' | 'replicate' | 'openai' | 'gemini';
+  IMAGE_PROVIDER_API_KEY?: string;
+  BG_REMOVAL_PROVIDER: 'mock' | 'local' | 'remove_bg';
+  CRM_PROVIDER: 'mock' | 'email' | 'webhook' | 'hubspot' | 'salesforce';
+}
+export declare function getEnv(): Env;
+export declare function parseEnv(source: Record<string, string | undefined>): Env;
+export declare function cookiesSecure(env: Pick<Env, 'NODE_ENV' | 'PUBLIC_BASE_URL'>): boolean;

@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+.data/
+/demo/
+*.tsbuildinfo
+.env
+.env.*.local
+coverage/
+playwright-report/
+test-results/
+scripts/offline/typecheck/tsconfig.generated.json
+next-env.d.ts

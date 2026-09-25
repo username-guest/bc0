@@ -1,0 +1,1800 @@
+/*
+ * BrandCanvas storefront. White-label: the tenant's colour (--brand) is the only accent; the
+ * surrounding palette stays neutral so any brand sits well in it. The one distinctive device is
+ * the proof frame: printer's crop marks around each mockup, from the proof sheets decorators
+ * send customers. Everything else is quiet — hairline rules, no shadows, left-aligned type.
+ */
+:root {
+  --paper: #f6f7f5;
+  --surface: #ffffff;
+  --ink: #1c2127;
+  --ink-soft: #5d6670;
+  --rule: #d5dad6;
+  --stage: #e9ece9;
+  --warn-bg: #fff4d6;
+  --warn-ink: #6b4a00;
+  --error: #a3261c;
+  --brand: #1f45c6;
+  --brand-ink: #ffffff;
+  --font-display: ui-sans-serif, system-ui, sans-serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --radius-control: 6px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121416;
+    --surface: #1a1d20;
+    --ink: #e7eae8;
+    --ink-soft: #9aa3a0;
+    --rule: #2d3236;
+    --stage: #22262a;
+    --warn-bg: #3a2f12;
+    --warn-ink: #f2d78f;
+    --error: #ff8a7a;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.5 var(--font-body);
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ------------------------------ shell ------------------------------ */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 4vw, 40px);
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--brand);
+}
+
+.masthead-note {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.studio {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 40px) 64px;
+}
+
+.platform {
+  max-width: 640px;
+  margin: 12vh auto;
+  padding: 0 20px;
+}
+
+/* ------------------------------ upload ------------------------------ */
+
+.drop {
+  border: 1px dashed var(--rule);
+  background: var(--surface);
+  padding: clamp(24px, 6vw, 56px);
+  max-width: 760px;
+}
+
+.drop.is-dragging {
+  border-color: var(--brand);
+  border-style: solid;
+}
+
+.drop-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  max-width: 18ch;
+}
+
+.drop-text {
+  color: var(--ink-soft);
+  margin: 0 0 24px;
+  max-width: 56ch;
+}
+
+.fine {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 12px 0 0;
+}
+
+.btn-brand {
+  background: var(--brand);
+  color: var(--brand-ink);
+  border: 0;
+  border-radius: var(--radius-control);
+  padding: 12px 20px;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.btn-brand:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.btn-quiet {
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  min-height: 44px;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.error {
+  color: var(--error);
+  margin: 16px 0 0;
+}
+
+.note {
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: var(--radius-control);
+  margin: 8px 0 0;
+}
+
+/* ------------------------------ logo strip ------------------------------ */
+
+.logo-strip {
+  display: grid;
+  grid-template-columns: minmax(120px, 220px) 1fr;
+  gap: 20px;
+  align-items: start;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.logo-tile {
+  aspect-ratio: 2 / 1;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border: 1px solid var(--rule);
+}
+
+.logo-tile img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.checker {
+  background-color: #fff;
+  background-image: linear-gradient(45deg, #dfe3e0 25%, transparent 25%), linear-gradient(-45deg, #dfe3e0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #dfe3e0 75%), linear-gradient(-45deg, transparent 75%, #dfe3e0 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+}
+
+.logo-count {
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.swatches {
+  display: flex;
+  gap: 6px;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 0.15);
+}
+
+.ask {
+  grid-column: 1 / -1;
+  border-left: 3px solid var(--brand);
+  padding: 4px 0 4px 16px;
+  max-width: 68ch;
+}
+
+.ask p {
+  margin: 0 0 12px;
+}
+
+.ask-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: center;
+}
+
+@media (max-width: 560px) {
+  /* Keep the logo compact so the products — what the visitor came for — stay near the top. */
+  .logo-strip {
+    grid-template-columns: 112px 1fr;
+    gap: 14px;
+    padding-bottom: 16px;
+  }
+  .logo-tile {
+    padding: 6px;
+  }
+}
+
+/* ------------------------------ controls ------------------------------ */
+
+.controls {
+  padding: 20px 0;
+  display: grid;
+  gap: 12px;
+}
+
+.control-label {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-right: 8px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.qty button {
+  flex: none;
+}
+
+/* Narrow screens: label on its own line, all six quantities share the row — never hide the
+   largest quantity (the best unit price) behind a horizontal scroll. */
+@media (max-width: 560px) {
+  .qty {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+  .qty .control-label {
+    flex-basis: 100%;
+  }
+  .qty button {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+.ink-ref {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.ink-ref i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 0.25);
+  align-self: center;
+}
+
+.qty button {
+  min-width: 52px;
+  min-height: 40px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  border-radius: var(--radius-control);
+  font-variant-numeric: tabular-nums;
+}
+
+.qty button[aria-pressed='true'] {
+  background: var(--brand);
+  color: var(--brand-ink);
+  border-color: var(--brand);
+}
+
+.filters {
+  display: grid;
+  gap: 8px;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 6px 12px;
+  min-height: 36px;
+  font-size: 14px;
+}
+
+.chip i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 0.2);
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+
+.count {
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------ grid + proof frame ------------------------------ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 40px 28px;
+}
+
+.grid[aria-busy='true'] {
+  opacity: 0.7;
+}
+
+.empty {
+  color: var(--ink-soft);
+}
+
+.proof {
+  position: relative;
+  aspect-ratio: 1;
+  margin: 14px; /* room for crop marks */
+  background: var(--stage);
+  display: grid;
+  place-items: center;
+}
+
+.proof-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.proof-empty {
+  color: var(--ink-soft);
+  font-size: 14px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+/* Printer's crop marks: lines extending OUTWARD from each corner, with a small gap. */
+.mark {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 0 solid var(--ink-soft);
+  pointer-events: none;
+}
+.mark.tl { top: -14px; left: -14px; border-right-width: 1px; border-bottom-width: 1px; }
+.mark.tr { top: -14px; right: -14px; border-left-width: 1px; border-bottom-width: 1px; }
+.mark.bl { bottom: -14px; left: -14px; border-right-width: 1px; border-top-width: 1px; }
+.mark.br { bottom: -14px; right: -14px; border-left-width: 1px; border-top-width: 1px; }
+
+.item-body {
+  padding: 4px 14px 0;
+}
+
+.item-name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.item-meta,
+.item-method,
+.item-total,
+.item-alt {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.price {
+  margin: 12px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.price span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+}
+
+.breaks {
+  margin-top: 12px;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.breaks th,
+.breaks td {
+  padding: 3px 16px 3px 0;
+  border-top: 1px solid var(--rule);
+  font-weight: 400;
+  text-align: left;
+}
+
+.breaks tr.on th,
+.breaks tr.on td {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.breaks tr:not(.on) {
+  color: var(--ink-soft);
+}
+
+details {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+summary {
+  cursor: pointer;
+  color: var(--ink-soft);
+  min-height: 32px;
+}
+
+.lines {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
+.lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.disclaimer {
+  margin-top: 48px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  max-width: 72ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ------------------------------ lead capture ------------------------------ */
+
+.btn-outline {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--ink-soft);
+  border-radius: var(--radius-control);
+  padding: 10px 16px;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.btn-outline:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.gate {
+  border-left: 3px solid var(--brand);
+  background: var(--surface);
+  padding: 20px 20px 16px;
+  margin: 8px 0 32px;
+  max-width: 720px;
+}
+
+.gate-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0 0 6px;
+}
+
+.gate-text {
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  max-width: 60ch;
+}
+
+.gate-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gate-row input {
+  flex: 1 1 220px;
+}
+
+.gate-done,
+.quote-sent {
+  border-left: 3px solid var(--brand);
+  padding: 8px 12px;
+  margin: 8px 0 24px;
+}
+
+.gate input,
+.quote input,
+.quote textarea,
+.sheet-form input {
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  min-height: 44px;
+  width: 100%;
+}
+
+.gate-row input {
+  width: auto;
+}
+
+[aria-invalid='true'] {
+  border-color: var(--error) !important;
+}
+
+.field-error {
+  display: block;
+  color: var(--error);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.consent {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  max-width: 60ch;
+}
+
+.consent input {
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  margin-top: 2px;
+  flex: none;
+}
+
+.quote-open {
+  margin-top: 14px;
+}
+
+.quote {
+  margin-top: 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.quote label {
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.quote-summary {
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.quote-pair {
+  display: grid;
+  grid-template-columns: 1fr 96px;
+  gap: 8px;
+}
+
+.optional {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.quote-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.sheet {
+  justify-self: start;
+}
+
+.sheet-form {
+  display: grid;
+  gap: 6px;
+  max-width: 560px;
+}
+
+.sheet-form > label {
+  font-size: 14px;
+}
+
+.proof-empty a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ============================== admin (ADR 0008) ============================== */
+/* Same paper tokens and tenant accent as the storefront: it's the distributor's own desk. */
+
+.admin,
+.admin-narrow {
+  accent-color: var(--brand);
+}
+.admin a,
+.admin-narrow a {
+  color: var(--ink);
+  text-decoration-color: var(--brand);
+  text-underline-offset: 3px;
+}
+.admin {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px 20px 64px;
+}
+.admin-narrow {
+  max-width: 440px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+.admin-h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0 0 16px;
+}
+.admin-h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+.admin label {
+  display: block;
+  font-size: 14px;
+  margin: 14px 0 4px;
+}
+.admin-narrow label {
+  display: block;
+  margin: 0 0 4px;
+}
+.admin input:not([type='radio']):not([type='checkbox']):not([type='color']),
+.admin select,
+.admin-narrow input {
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  min-height: 44px;
+  width: 100%;
+}
+.admin fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.admin fieldset:disabled {
+  opacity: 0.55;
+}
+.admin-sent {
+  background: var(--surface);
+  border-left: 3px solid var(--brand);
+  padding: 12px 14px;
+}
+
+.admin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap; /* five tabs: wrap on phones instead of pushing the page sideways */
+  gap: 4px;
+}
+.admin-tabs button {
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: 12px 14px 9px;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.admin-tabs button[aria-current='page'] {
+  color: var(--ink);
+  border-bottom-color: var(--brand);
+}
+.admin-who {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+/* ---------------- inbox: list + detail pane ---------------- */
+.inbox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* tracks may shrink below their content: no clipped list */
+  gap: 24px;
+}
+@media (min-width: 900px) {
+  .inbox.has-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+@media (max-width: 899px) {
+  .inbox.has-detail .inbox-list {
+    display: none; /* one pane at a time on small screens */
+  }
+}
+.inbox-tools {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.inbox-tools input {
+  flex: 1 1 220px;
+  width: auto !important;
+}
+.inbox-tools .btn-outline {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.chip-attention[aria-pressed='true'] {
+  border-color: var(--error);
+  box-shadow: inset 0 0 0 1px var(--error);
+  color: var(--error);
+}
+.inbox-empty {
+  color: var(--ink-soft);
+  padding: 24px 0;
+  max-width: 52ch;
+}
+.lead-rows {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.lead-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'who stamp' 'meta stamp';
+  gap: 2px 12px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 12px 8px;
+  color: inherit;
+  font: inherit;
+}
+.lead-row:hover {
+  background: var(--surface);
+}
+.lead-row[aria-current='true'] {
+  background: var(--surface);
+  box-shadow: inset 3px 0 0 var(--brand);
+}
+.lead-who {
+  grid-area: who;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  min-width: 0;
+}
+.lead-who strong {
+  overflow-wrap: anywhere;
+}
+.lead-email,
+.lead-company,
+.lead-meta {
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.lead-meta {
+  grid-area: meta;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.lead-row .stamp {
+  grid-area: stamp;
+  align-self: center;
+}
+.inbox-more {
+  margin-top: 12px;
+}
+
+/* The delivery stamp: the one flourish. A rubber-stamp mark that answers "did it reach my CRM?" */
+.stamp {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px 8px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  outline: 1px solid currentColor;
+  outline-offset: 1px;
+  transform: rotate(-2deg);
+  white-space: nowrap;
+}
+.stamp.is-sent {
+  color: #1d7a45;
+}
+.stamp.is-pending {
+  color: var(--ink-soft);
+}
+.stamp.is-retrying {
+  color: #9a5b00;
+}
+.stamp.is-dead {
+  color: var(--error);
+}
+@media (prefers-color-scheme: dark) {
+  .stamp.is-sent {
+    color: #6fd39a;
+  }
+  .stamp.is-retrying {
+    color: #f2b95a;
+  }
+}
+
+.lead-pane {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 16px 20px 20px;
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .lead-pane {
+    position: sticky;
+    top: 16px;
+  }
+}
+.lead-close {
+  margin: -8px 0 4px;
+}
+@media (min-width: 900px) {
+  .lead-close {
+    display: none; /* the list is beside the pane; picking another lead replaces it */
+  }
+}
+.lead-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+}
+.lead-h3 {
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+.lead-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 6px 16px;
+  margin: 0;
+}
+.lead-facts dt {
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.lead-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 14px;
+  border-left: 2px solid var(--rule);
+}
+.timeline li {
+  position: relative;
+  padding: 4px 0 8px;
+}
+.timeline li::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--brand);
+}
+.timeline li.is-problem::before {
+  border-color: var(--error);
+}
+.timeline time {
+  color: var(--ink-soft);
+  font-size: 13px;
+  margin-right: 6px;
+}
+.deliveries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.deliveries li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+}
+.deliveries .fine {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ---------------- settings ---------------- */
+.settings {
+  display: grid;
+  gap: 20px;
+  max-width: 680px;
+}
+.settings-section {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 18px 20px 20px;
+}
+.settings-section .btn-brand {
+  margin-top: 16px;
+}
+.settings-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 16px;
+}
+.swatch-row {
+  display: flex;
+  gap: 8px;
+}
+.swatch-row input[type='color'] {
+  width: 48px;
+  height: 44px;
+  padding: 2px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  flex: none;
+}
+.brand-preview {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--rule);
+  color: var(--p);
+  font-size: 22px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.admin .radio,
+.admin .check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 10px 0;
+  font-size: 15px;
+}
+.admin .radio input,
+.admin .check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  flex: none;
+}
+.fine-inline {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.saved {
+  color: #1d7a45;
+  margin: 12px 0 0;
+}
+@media (prefers-color-scheme: dark) {
+  .saved {
+    color: #6fd39a;
+  }
+}
+.secret-once {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  border-radius: var(--radius-control);
+}
+.secret-once p {
+  margin: 0 0 8px;
+}
+.secret-once input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  font-size: 14px !important;
+}
+.routing-test {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 16px 0 0;
+}
+.routing-test .error,
+.routing-test .saved {
+  margin: 0;
+}
+.activity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  display: grid;
+  gap: 6px;
+}
+.activity-by {
+  color: var(--ink-soft);
+}
+.activity time {
+  color: var(--ink-soft);
+  margin-right: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    transform: none;
+  }
+}
+
+/* ============================ pricing admin (ADR 0009) ============================ */
+.pricing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+@media (min-width: 980px) {
+  .pricing {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    align-items: start;
+  }
+}
+.pricing-form {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+/* Grid items default to min-width:auto and would grow to their widest content (the tier table)
+   instead of letting it scroll inside its own box. */
+.pricing-form > *,
+.pricing > * {
+  min-width: 0;
+}
+.px-field {
+  min-width: 0;
+}
+.px-money,
+.px-pct {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* The general admin rule gives inputs width:100%; beside a $/% label in a flex row that overflows. */
+.px-money input,
+.px-pct input {
+  width: 0 !important;
+  flex: 1 1 auto;
+  min-width: 0 !important;
+}
+.px-money > span,
+.px-pct > span {
+  color: var(--ink-soft);
+  flex: none;
+}
+.px-more summary,
+.px-method summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 0;
+  min-height: 44px;
+}
+.px-method {
+  border-top: 1px solid var(--rule);
+}
+.px-method[open] {
+  padding-bottom: 12px;
+}
+.px-rush {
+  margin-top: 12px !important;
+}
+.px-rush legend {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.px-tiers {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  display: block;
+  overflow-x: auto; /* the tier table scrolls on its own on small screens */
+}
+.px-tiers caption {
+  text-align: left;
+  margin-bottom: 4px;
+}
+.px-tiers th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  padding: 0 8px 0 0;
+}
+.px-tiers td {
+  padding: 0 8px 6px 0;
+  vertical-align: top;
+  min-width: 96px;
+}
+.px-tiers td:last-child {
+  min-width: 0;
+}
+.px-tiers label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap; /* visually hidden: the column header labels it */
+}
+.pricing-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+}
+.pricing-actions .btn-brand {
+  margin: 0;
+}
+.pricing-actions .saved,
+.pricing-actions .error {
+  margin: 0;
+}
+
+/* The price ticket: the one distinctive element here. Reads like a quote slip. */
+.ticket {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--brand);
+  border-radius: 4px 4px 10px 10px;
+  padding: 16px 18px;
+  min-width: 0;
+}
+@media (min-width: 980px) {
+  .ticket {
+    position: sticky;
+    top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
+}
+.ticket-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+.ticket-sample {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+.ticket-sample label {
+  margin: 0 !important;
+}
+.ticket-sample input {
+  min-width: 0;
+}
+.ticket-rows {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  border-top: 1px dashed var(--rule);
+}
+.ticket-rows li {
+  border-bottom: 1px dashed var(--rule);
+}
+.ticket-rows summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  cursor: pointer;
+  list-style: none;
+}
+.ticket-rows summary::-webkit-details-marker {
+  display: none;
+}
+.ticket-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ticket-price {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ticket-price strong {
+  font-size: 17px;
+}
+.ticket-delta {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+/* Neutral on purpose: a higher price isn't good or bad, it's just the change. */
+.ticket-delta {
+  color: var(--ink-soft);
+}
+.ticket-lines {
+  width: 100%;
+  font-size: 14px;
+  margin: 0 0 10px;
+  font-variant-numeric: tabular-nums;
+}
+.ticket-lines td:last-child {
+  text-align: right;
+}
+.ticket-warnings {
+  margin: 12px 0 0;
+  padding: 10px 12px 10px 28px;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+}
+
+/* ---- Team (ADR 0011) ---- */
+.team-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.team-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+}
+.team-row:first-child {
+  border-top: 0;
+}
+.team-row[aria-busy='true'] {
+  opacity: 0.6;
+}
+.team-who {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+.team-email {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.team-meta {
+  flex-basis: 100%;
+  margin: 0;
+}
+.tag {
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.tag-pending {
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  border-color: transparent;
+}
+.team-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px 16px;
+  margin-left: auto;
+}
+.admin .team-role select {
+  min-height: 44px;
+  margin: 0;
+  width: auto;
+}
+.team-role-text {
+  color: var(--ink-soft);
+}
+.btn-danger-quiet {
+  color: var(--error);
+}
+.team-confirm {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+}
+.team-confirm p {
+  margin: 0;
+  flex-basis: 100%;
+}
+.btn-danger {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--error);
+  color: #fff;
+  font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  .btn-danger {
+    color: #1a1d20;
+  }
+}
+.team-roles {
+  border: 0;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+/* ---- Safari / iOS ----
+ * iOS Safari zooms the page into any text field under 16px when it gets focus, and doesn't zoom
+ * back out. On phones and touch devices every text-entry control is at least 16px. `!important`
+ * because this is a platform floor that must beat the compact sizes set on dense forms. Desktop
+ * (mouse) keeps those compact sizes. Checked on every page by the browser suites. */
+@media (max-width: 899px), (pointer: coarse) {
+  input:not([type='radio']):not([type='checkbox']):not([type='color']):not([type='file']):not([type='range']),
+  select,
+  textarea {
+    font-size: max(16px, 1em) !important;
+  }
+}
+
+/* Tier table on phones: fit the width exactly (no hidden sideways scroll) and show Remove as a
+ * compact × — still a 44px target, still announced as "Remove tier N". */
+.px-remove-x {
+  display: none;
+}
+@media (max-width: 560px) {
+  .px-tiers {
+    display: table;
+    table-layout: fixed;
+    overflow: visible;
+  }
+  .px-tiers td,
+  .px-tiers th {
+    min-width: 0;
+  }
+  .px-tiers th:last-child,
+  .px-tiers td:last-child {
+    width: 44px;
+    padding-right: 0;
+  }
+  .px-tier-remove {
+    min-width: 44px;
+    text-decoration: none;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--ink-soft);
+  }
+  .px-remove-word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .px-remove-x {
+    display: inline;
+  }
+}
+
+/* Inbox filters on phones wrap instead of scrolling sideways: "Needs attention" (failed CRM
+ * deliveries) must not start off-screen where nobody finds it. */
+@media (max-width: 560px) {
+  .admin .chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+/* Storefront feature switches (ADR 0013): the reason a switch can't be used sits on its own line. */
+.feature-locked {
+  display: block;
+  font-style: italic;
+}
+
+/* ---- Analytics + tracked links (ADR 0014) ---- */
+.an-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.an-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.an-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.an-totals div {
+  background: var(--stage);
+  border-radius: var(--radius-control);
+  padding: 12px;
+  min-width: 0;
+}
+.an-totals dt {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.an-totals dd {
+  margin: 4px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.an-totals .fine-inline {
+  font-size: 14px;
+  font-weight: 400;
+}
+.an-chart {
+  margin: 0 0 8px;
+}
+.an-chart svg {
+  display: block;
+  width: 100%;
+  height: 120px;
+  background: var(--stage);
+  border-radius: var(--radius-control);
+}
+.an-bar {
+  fill: var(--brand);
+  opacity: 0.8;
+}
+.an-lead {
+  fill: var(--ink);
+}
+.an-axis {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+.an-axis span:nth-child(2) {
+  text-align: center;
+}
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.an-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.an-table th,
+.an-table td {
+  text-align: right;
+  padding: 8px 10px;
+  border-top: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.an-table th[scope='row'],
+.an-table thead th:first-child {
+  text-align: left;
+  white-space: normal;
+  font-weight: 600;
+}
+.an-table thead th {
+  border-top: 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  white-space: normal; /* "Saw a proof" wraps so the table fits a phone (ADR 0012) */
+  vertical-align: bottom;
+}
+.an-table .tag {
+  margin-left: 6px;
+}
+.an-channel {
+  display: block;
+  font-weight: 400;
+  margin: 2px 0 0;
+}
+.an-create fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  max-width: 420px;
+}
+.an-create .btn-brand {
+  justify-self: start;
+  margin-top: 6px;
+}
+.an-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 8px;
+}
+.an-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+}
+.an-link[aria-busy='true'] {
+  opacity: 0.6;
+}
+.an-link-who {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.an-url,
+.an-rename {
+  display: flex;
+  gap: 8px;
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.an-url input,
+.an-rename input {
+  flex: 1;
+  min-width: 0;
+}
+.an-link .saved,
+.an-link .error {
+  flex-basis: 100%;
+  margin: 0;
+}
+@media (max-width: 560px) {
+  .an-totals {
+    gap: 8px;
+  }
+  .an-totals div {
+    padding: 10px 8px;
+  }
+  .an-totals dd {
+    font-size: 22px;
+  }
+  .an-totals .fine-inline {
+    display: block;
+  }
+  .an-table th,
+  .an-table td {
+    padding: 8px 4px;
+  }
+  .an-table th[scope='row'] {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ---- API keys (ADR 0016) ---- */
+.api-base,
+.api-keys code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+.api-keys .secret-once .an-url {
+  margin: 8px 0;
+}
+
+/* ---- Suppliers (ADR 0017) ---- */
+.suppliers .an-link {
+  align-items: flex-start;
+}
+.suppliers code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+.sup-form {
+  margin: 12px 0;
+  padding: 16px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+}
+.sup-form > fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.sup-legend {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.sup-field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.sup-field input,
+.sup-field textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.sup-field.has-error input,
+.sup-field.has-error textarea {
+  border-color: var(--error);
+}
+.sup-row {
+  display: grid;
+  grid-template-columns: minmax(0, 8rem) minmax(0, 1fr);
+  gap: 12px;
+}
+.sup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sup-status {
+  margin-left: 6px;
+}
+.sup-status.sup-failed {
+  color: var(--error);
+}
+.sup-notes {
+  margin-top: 4px;
+  font-size: 0.875rem;
+}
+.sup-notes summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.sup-notes ul {
+  margin: 4px 0 0;
+  padding-left: 1.1rem;
+  max-height: 16rem;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 520px) {
+  .sup-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
